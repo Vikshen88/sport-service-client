@@ -20,12 +20,12 @@ const PostList = ({posts}) => {
 class PostListContainer extends Component {
 
     componentDidMount() {
-        this.props.fetchPosts();
+        this.props.fetchPosts(this.props.category, this.props.page);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.category !== this.props.category) {
-            this.props.fetchPosts();
+        if(prevProps.category !== this.props.category || prevProps.page !== this.props.page) {
+            this.props.fetchPosts(this.props.category, this.props.page);
         }
     }
 
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     const {sportService, category} = ownProps;
     return {
-        fetchPosts: () => dispatch(fetchPosts(sportService, category)())
+        fetchPosts: (category, page) => dispatch(fetchPosts(sportService, category, page)())
     }
 };
 

@@ -16,11 +16,6 @@ const PostItem = ({ post }) => {
             <div className="data">
                 <h3><Link t={`/article/${post.id}`}>{post.namePost}</Link>
                 </h3>
-                <ul className="vertical large-horizontal menu">
-                    <li><i className="fi-folder"></i><a href="#">CATEGORY </a></li>
-                    <li><i className="fi-clock"></i> DATE</li>
-                    <li><i className="fi-eye"></i>Hits: {post.hits}</li>
-                </ul>
                 <hr/>
                 <div className="desc">
                     <p>{post.description}</p>

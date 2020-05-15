@@ -6,6 +6,9 @@ import Footer from "../footer";
 
 import {MainPage, PostPage} from '../pages'
 
+import Registration from "../registration";
+import Login from "../login";
+
 
 const App = () => {
 
@@ -15,11 +18,13 @@ const App = () => {
             <div className='container'>
                 <Switch>
                     <Route path={"/"} component={MainPage} exact/>
+                    <Route path={"/login"} component={Login}  />
+                    <Route path={"/registration"} component={Registration} />
                     <Route path={"/:category?"} component={MainPage} exact/>
                     <Route path={"/article/:id"} render={({match}) => {
                         const {id} = match.params;
                         return <PostPage id={id}/>
-                    }}/>
+                    }} exact/>
 
                 </Switch>
             </div>

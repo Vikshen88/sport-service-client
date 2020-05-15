@@ -27,13 +27,26 @@ export default class SportService {
         return res;
     };
 
-    getPosts = async (category, id = 0) => {
+    getPosts = async (category, page) => {
         if(category === undefined) {
             category = "";
         }
-        console.log('MY CATEGORY', category);
-        const res = await this.getResource(`post/${category}?page=${id}`);
+
+        const res = await this.getResource(`post/${category}?page=${page}`);
+        return res.content;
+    };
+
+    getComments = async (id) => {
+        const res = await this.getResource(`comment/${id}`);
         return res;
+    };
+
+    getPages = async (category) => {
+        if(category === undefined) {
+            category = "";
+        }
+        const res = await this.getResource(`post/${category}?page=0`);
+        return res.totalPages;
     }
 
 }

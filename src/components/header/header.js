@@ -11,15 +11,12 @@ const Header = () => {
                         <Link to={"/"}><h1>SportService</h1></Link>
                     </div>
                     <div className="large-6 medium-6 columns">
-                        <form action="#" method="get">
-                            <div className="input-group">
-                                <input id="Название матча" className="input-group-field" name="query" placeholder="Search query"
-                                       type="text" />
-                                    <div className="btn btn-primary">
-                                        <button>Find</button>
-                                    </div>
-                            </div>
-                        </form>
+                        <div className="input-group">
+                            <input id="Название матча" className="input-group-field" name="query"
+                                   placeholder="Введите название матча"
+                                   type="text"/>
+                            <button className="btn btn-primary" style={{margin: "10px 0 0 0"}}>Найти</button>
+                        </div>
                     </div>
                 </div>
             </div>

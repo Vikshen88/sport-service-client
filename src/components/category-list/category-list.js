@@ -7,11 +7,11 @@ import Spinner from "../spinner";
 import ErrorIndicator from "../error-indicator";
 
 
-const CategoryList = ({categories, onItemSelected}) => {
+const CategoryList = ({categories, onChangeCategory}) => {
 
     const categoriesList = categories.map((item) => {
         return (
-            <li key={item.id} onClick={() => onItemSelected(item.url)} >
+            <li key={item.id} onClick={() => onChangeCategory(item.url)} >
                 <a>{item.nameCategory}</a>
             </li>
         )
@@ -20,7 +20,7 @@ const CategoryList = ({categories, onItemSelected}) => {
     return (
         <div className="col-2">
             <div className="list-type4">
-                <h3>Categories</h3>
+                <h3>Категории</h3>
                 <ul className="list-group">
                     {categoriesList}
                 </ul>
@@ -47,7 +47,7 @@ class CategoryListContainer extends Component {
             return <ErrorIndicator/>
         }
 
-        return <CategoryList categories={categories} onItemSelected={this.props.onItemSelected}/>
+        return <CategoryList categories={categories} onChangeCategory={this.props.onChangeCategory}/>
     }
 }
 
