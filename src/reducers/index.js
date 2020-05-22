@@ -157,7 +157,6 @@ const updateMainPage = (state, action) => {
 };
 
 const updateCommentList = (state, action) => {
-    console.log(action.type, 'ACTIONNNNN');
     if (state === undefined) {
         return {
             comments: [],
@@ -217,6 +216,7 @@ const updateCommentList = (state, action) => {
 };
 
 const updateUserInfo = (state, action) => {
+    console.log('ACTION:', action.type, 'STATE V REDUCER:', state);
     if(state === undefined) {
         return {
             user: null,
@@ -226,9 +226,9 @@ const updateUserInfo = (state, action) => {
     }
 
     switch(action.type){
-        case 'FETCH_USER_LOADING':
+        case 'FETCH_USER_REQUEST':
             return {
-                user: null,
+                user: state.userInfo.user,
                 loading: true,
                 error: false
             };
@@ -239,16 +239,22 @@ const updateUserInfo = (state, action) => {
                 error: false
             };
 
-        case 'FETCH_USER_ERROR':
+        case 'FETCH_USER_FAILURE':
             return {
                 user: null,
                 loading: false,
                 error: true
             };
 
+        case 'ADD_NEW_USER':
+            return {
+                user: action.payload,
+                loading: false,
+                error: false
+            };
+
         default:
             return state.userInfo;
-
     }
 };
 

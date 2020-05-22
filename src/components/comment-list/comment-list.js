@@ -14,7 +14,6 @@ const CommentList = ({visible, comments, loadMore}) => {
             {comments.slice(0, visible).map((comment) => {
                 return <CommentItem comment={comment}/>
             })}
-
             {visible < comments.length ?
                 <button onClick={loadMore} type="button" className="load-more btn btn-primary">Загрузить еще</button> : ''}
         </div>

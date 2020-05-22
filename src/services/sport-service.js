@@ -4,22 +4,22 @@ export default class SportService {
 
     getResource = async (url) => {
         const res = await fetch(`${this._baseApiUrl}${url}`, {
-            headers : {
+            headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
-            }});
+            }
+        });
         if (!res.ok) {
             throw new Error(`Could not fetch ${this._baseApiUrl}${url}, received ${res.status}`)
         }
 
         const body = await res.json();
-        console.log(body);
         return body;
     };
 
     getAllCategories = async () => {
-       const res = await this.getResource('category');
-       return res;
+        const res = await this.getResource('category');
+        return res;
     };
 
     getPost = async (id) => {
@@ -28,7 +28,7 @@ export default class SportService {
     };
 
     getPosts = async (category, page) => {
-        if(category === undefined) {
+        if (category === undefined) {
             category = "";
         }
 
@@ -42,11 +42,50 @@ export default class SportService {
     };
 
     getPages = async (category) => {
-        if(category === undefined) {
+        if (category === undefined) {
             category = "";
         }
         const res = await this.getResource(`post/${category}?page=0`);
         return res.totalPages;
-    }
+    };
 
+    getUser = async (username, password) => {
+        const res = await this.getResource(`user/?username=${username}&password=${password}`);
+        return res;
+    };
+
+    sendUser = async (username, password) => {
+        const rawResponse = await fetch(`${this._baseApiUrl}user/addUser`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: username, password: password, roles: [{id: 1}]})
+        });
+        const content = await rawResponse.json();
+        return content;
+    };
+
+    sendComment = async (comment, user, post) => {
+
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        const rawResponse = await fetch(`${this._baseApiUrl}comment/addComment`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({content: comment, date: today, user: {id: user.id}, idPost: post.id})
+        });
+
+        const content = await rawResponse.json();
+
+    }
 }
+

@@ -112,7 +112,7 @@ const commentsError = (error) => {
     }
 };
 
-export const loadMoreComments = () =>{
+export const loadMoreComments = () => {
     return {
         type: 'LOAD_MORE_COMMENTS'
     }
@@ -125,7 +125,45 @@ export const addNewComment = (comment) => {
     }
 };
 
+//-----------------------
+//USERS ACTIONS
 
+export const userRequest = () => {
+    return {
+        type: 'FETCH_USER_REQUEST'
+    }
+};
+
+const userLoading = (user) => {
+    return {
+        type: 'FETCH_USER_SUCCESS',
+        payload: user
+    }
+};
+
+const userError = (error) => {
+    return {
+        type: 'FETCH_USER_FAILURE'
+    }
+};
+
+const addUserRequest = (user) => {
+    return {
+        type: 'ADD_NEW_USER',
+        payload: user
+    }
+};
+
+const login = (sportService, username, password) => () => (dispatch) => {
+    dispatch(userRequest());
+    sportService.getUser(username, password)
+        .then((user) => {
+            dispatch(userLoading(user))
+        })
+        .catch((error) => {
+            dispatch(userError(error))
+        })
+};
 
 const fetchComments = (sportService, id) => () => (dispatch) => {
     dispatch(commentsRequest());
@@ -172,18 +210,43 @@ const fetchPosts = (sportService, category, page) => () => (dispatch) => {
 };
 
 const fetchCategories = (sportService) => () => (dispatch) => {
-        dispatch(categoriesRequest());
-        sportService.getAllCategories()
-            .then((data) => {
-                dispatch(categoriesLoaded(data))
-            })
-            .catch((error) => {
-                dispatch(categoriesError(error))
-            })
+    dispatch(categoriesRequest());
+    sportService.getAllCategories()
+        .then((data) => {
+            dispatch(categoriesLoaded(data))
+        })
+        .catch((error) => {
+            dispatch(categoriesError(error))
+        })
 };
 
-export {fetchCategories,
-        fetchPosts,
-        fetchPost,
-        fetchPages,
-        fetchComments}
+const addNewUser = (sportService, username, password) => () => (dispatch) => {
+    sportService.sendUser(username, password)
+        .then((data) => {
+            console.log(data, "PEREDAU USERA V ACTION");
+            dispatch(userLoading(data))
+        })
+};
+
+const sendNewComment = (sportService, comment, user, post) => () => (dispatch) => {
+    sportService.sendComment(comment, user, post)
+        .then((data) => {
+            dispatch(addNewComment(data));
+            dispatch(commentsRequest());
+            sportService.getComments(post.id)
+                .then((comments) => {
+                    dispatch(commentsLoaded(comments));
+                })
+        });
+};
+
+export {
+    fetchCategories,
+    fetchPosts,
+    fetchPost,
+    fetchPages,
+    fetchComments,
+    login,
+    addNewUser,
+    sendNewComment
+}
